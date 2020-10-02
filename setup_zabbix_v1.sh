@@ -1,10 +1,10 @@
-#!/bin/bash -e
+#!/bin/sh
 # ZabbixTest_agent_install
 # Installation script Zabbix Agent
 # Version 0.0.9
 # March 20 2020
 # Property of Purkinje
-
+set -e
 
 ######################################################
 
