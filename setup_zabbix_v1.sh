@@ -28,8 +28,8 @@
 #####################################################
 
 # Set Zabbix Server IP address (ZABIP) and Communicaiton port (PORT)
-  ZABIP=52.228.45.198
-  PORT=15110
+  ZABIP=PropertiesFile
+  PORT=PropertiesFile
 
 # Set Hostname
   HOSTNAME=`hostname`
@@ -47,18 +47,18 @@ if [ -x /usr/bin/apt-get ]; then
 
   sed -i 's/# EnableRemoteCommands=0/EnableRemoteCommands=1/' /etc/zabbix/zabbix_agentd.conf
   sed -i 's/# LogRemoteCommands=0/LogRemoteCommands=1/' /etc/zabbix/zabbix_agentd.conf
-  sed -i "s/Server=127.0.0.1/Server=$ZABIP/" /etc/zabbix/zabbix_agentd.conf
-  sed -i "s/ServerActive=127.0.0.1/# ServerActive=127.0.0.1/" /etc/zabbix/zabbix_agentd.conf
-  sed -i "s/Hostname=Zabbix\ server/Hostname=$HOSTNAME/" /etc/zabbix/zabbix_agentd.conf
+  sed -i "s/Server=127.0.0.1/Server='$ZABIP'/" /etc/zabbix/zabbix_agentd.conf
+  sed -i "s/ServerActive=127.0.0.1/# ServerActive='$ZABIP'" /etc/zabbix/zabbix_agentd.conf
+  sed -i "s/Hostname=Zabbix\ server/Hostname='$HOSTNAME'/" /etc/zabbix/zabbix_agentd.conf
 # sed -i "s/# SourceIP=/SourceIP=$AGIP/" /etc/zabbix/zabbix_agentd.conf
 # sed -i "s/# ListenIP=0.0.0.0/ListenIP=$AGIP/" /etc/zabbix/zabbix_agentd.conf
-  sed -i "s/# ListenPort=10050/ListenPort=$PORT/" /etc/zabbix/zabbix_agentd.conf
+  sed -i "s/# ListenPort=10050/ListenPort='$PORT'/" /etc/zabbix/zabbix_agentd.conf
   sed -i 's/# UnsafeUserParameters=0/UnsafeUserParameters=1/' /etc/zabbix/zabbix_agentd.conf
   sed -i 's/# TLSConnect=unencrypted/TLSConnect=psk/' /etc/zabbix/zabbix_agentd.conf
   sed -i 's/# TLSAccept=unencrypted/TLSAccept=psk/' /etc/zabbix/zabbix_agentd.conf
-  sed -i "s/# TLSPSKIdentity=/TLSPSKIdentity=purk-zabbix-exchange-001/" /etc/zabbix/zabbix_agentd.conf
-echo "TLSPSKFile=/etc/zabbix/zabbix_agentd.psk" >> /etc/zabbix/zabbix_agentd.conf
-echo "1f87b595725ac58dd977beef14b97461a7c1045b9a1c96308899ca445566aaff" >> /etc/zabbix/zabbix_agentd.psk
+  sed -i "s/# TLSPSKIdentity=/TLSPSKIdentity=PropertiesFile/" /etc/zabbix/zabbix_agentd.conf
+echo "TLSPSKFile=/etc/zabbix/PropertiesFile" >> /etc/zabbix/zabbix_agentd.conf
+echo "PropertiesFile" >> /etc/zabbix/zabbix_agentd.psk
 
 
 # -----------8<--------customizations and userparams------>8--------------
@@ -71,7 +71,7 @@ echo "1f87b595725ac58dd977beef14b97461a7c1045b9a1c96308899ca445566aaff" >> /etc/
 # -----------8<------------------------------------------->8-------------
 
 # Open firewall for zabbix communication
-#  ufw allow from $ZABIP/32 to any port $PORT
+ufw allow from '$ZABIP'/32 to any port '$PORT'
 #  ufw reload
 
 #Restarting zabbix agent
