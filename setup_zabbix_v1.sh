@@ -48,12 +48,12 @@ if [ -x /usr/bin/apt-get ]; then
 
   sudo sed -i 's/# EnableRemoteCommands=0/EnableRemoteCommands=1/' /etc/zabbix/zabbix_agentd.conf
   sudo sed -i 's/# LogRemoteCommands=0/LogRemoteCommands=1/' /etc/zabbix/zabbix_agentd.conf
-  sudo sed -i "s/Server=127.0.0.1/Server='$ZABIP'/" /etc/zabbix/zabbix_agentd.conf
-  sudo sed -i "s/ServerActive=127.0.0.1/# ServerActive='$ZABIP'" /etc/zabbix/zabbix_agentd.conf
-  sudo sed -i "s/Hostname=Zabbix\ server/Hostname='$HOSTNAME'/" /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i "s/Server=127.0.0.1/Server=$ZABIP/" /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i "s/ServerActive=127.0.0.1/# ServerActive=$ZABIP" /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i "s/Hostname=Zabbix\ server/Hostname=$HOSTNAME/" /etc/zabbix/zabbix_agentd.conf
 # sed -i "s/# SourceIP=/SourceIP=$AGIP/" /etc/zabbix/zabbix_agentd.conf
 # sed -i "s/# ListenIP=0.0.0.0/ListenIP=$AGIP/" /etc/zabbix/zabbix_agentd.conf
-  sudo sed -i "s/# ListenPort=10050/ListenPort='$PORT'/" /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i "s/# ListenPort=10050/ListenPort=$PORT/" /etc/zabbix/zabbix_agentd.conf
   sudo sed -i 's/# UnsafeUserParameters=0/UnsafeUserParameters=1/' /etc/zabbix/zabbix_agentd.conf
   sudo sed -i 's/# TLSConnect=unencrypted/TLSConnect=psk/' /etc/zabbix/zabbix_agentd.conf
   sudo sed -i 's/# TLSAccept=unencrypted/TLSAccept=psk/' /etc/zabbix/zabbix_agentd.conf
