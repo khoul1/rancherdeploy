@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # ZabbixTest_agent_install
 # Installation script Zabbix Agent
 # Version 0.0.9
