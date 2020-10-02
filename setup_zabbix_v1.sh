@@ -40,24 +40,24 @@ set -e
 
 #  Ubuntu 16 + using UFW for firewall, this script assumes the firewall is enabled.
 if [ -x /usr/bin/apt-get ]; then
-  apt-get update
-  apt-get -y install zabbix-agent
-  systemctl enable zabbix-agent
+  sudo apt-get update
+  sudo apt-get -y install zabbix-agent
+  sudo systemctl enable zabbix-agent
 
 # Injecting custom configurations into Zabbix agent conf file.
 
-  sed -i 's/# EnableRemoteCommands=0/EnableRemoteCommands=1/' /etc/zabbix/zabbix_agentd.conf
-  sed -i 's/# LogRemoteCommands=0/LogRemoteCommands=1/' /etc/zabbix/zabbix_agentd.conf
-  sed -i "s/Server=127.0.0.1/Server='$ZABIP'/" /etc/zabbix/zabbix_agentd.conf
-  sed -i "s/ServerActive=127.0.0.1/# ServerActive='$ZABIP'" /etc/zabbix/zabbix_agentd.conf
-  sed -i "s/Hostname=Zabbix\ server/Hostname='$HOSTNAME'/" /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i 's/# EnableRemoteCommands=0/EnableRemoteCommands=1/' /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i 's/# LogRemoteCommands=0/LogRemoteCommands=1/' /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i "s/Server=127.0.0.1/Server='$ZABIP'/" /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i "s/ServerActive=127.0.0.1/# ServerActive='$ZABIP'" /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i "s/Hostname=Zabbix\ server/Hostname='$HOSTNAME'/" /etc/zabbix/zabbix_agentd.conf
 # sed -i "s/# SourceIP=/SourceIP=$AGIP/" /etc/zabbix/zabbix_agentd.conf
 # sed -i "s/# ListenIP=0.0.0.0/ListenIP=$AGIP/" /etc/zabbix/zabbix_agentd.conf
-  sed -i "s/# ListenPort=10050/ListenPort='$PORT'/" /etc/zabbix/zabbix_agentd.conf
-  sed -i 's/# UnsafeUserParameters=0/UnsafeUserParameters=1/' /etc/zabbix/zabbix_agentd.conf
-  sed -i 's/# TLSConnect=unencrypted/TLSConnect=psk/' /etc/zabbix/zabbix_agentd.conf
-  sed -i 's/# TLSAccept=unencrypted/TLSAccept=psk/' /etc/zabbix/zabbix_agentd.conf
-  sed -i "s/# TLSPSKIdentity=/TLSPSKIdentity=PropertiesFile/" /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i "s/# ListenPort=10050/ListenPort='$PORT'/" /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i 's/# UnsafeUserParameters=0/UnsafeUserParameters=1/' /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i 's/# TLSConnect=unencrypted/TLSConnect=psk/' /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i 's/# TLSAccept=unencrypted/TLSAccept=psk/' /etc/zabbix/zabbix_agentd.conf
+  sudo sed -i "s/# TLSPSKIdentity=/TLSPSKIdentity=PropertiesFile/" /etc/zabbix/zabbix_agentd.conf
 echo "TLSPSKFile=/etc/zabbix/PropertiesFile" >> /etc/zabbix/zabbix_agentd.conf
 echo "PropertiesFile" >> /etc/zabbix/zabbix_agentd.psk
 
@@ -72,11 +72,11 @@ echo "PropertiesFile" >> /etc/zabbix/zabbix_agentd.psk
 # -----------8<------------------------------------------->8-------------
 
 # Open firewall for zabbix communication
-ufw allow from '$ZABIP'/32 to any port '$PORT'
+sudo ufw allow from '$ZABIP'/32 to any port '$PORT'
 #  ufw reload
 
 #Restarting zabbix agent
-  systemctl restart zabbix-agent
+sudo systemctl restart zabbix-agent
 
 # Preparing details file for zabbix server
 echo $HOSTNAME >> ./hostname.txt
