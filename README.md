@@ -1,6 +1,6 @@
 # rancherdeploy
 
-# 2 Summary
+# 2 Alter default IP docker
 Docker uses the default 172.17.0.0/16 subnet for container networking. If this subnet is not available for docker in your environment (for example because your network already uses this subnet), you must configure Docker to use a different subnet. You can perform this process across all the hosts in your system, or only on hosts deployed into environments where the 172.17.0.0/16 unavailable. In a multihost deployment, there is no requirement that all hosts use the same subnet for Docker container communications.
 
 Procedure
