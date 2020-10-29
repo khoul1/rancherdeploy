@@ -46,3 +46,10 @@ As part of the response, you should expect to see the following for your Docker 
 
 If you see those expected results, start serviced:
 $ sytemctl start service
+
+
+# Kube Info
+
+Deploy kubernetes and Helm 
+
+helm install rancher rancher-latest/rancher --namespace cattle-system --set hostname=*REAL-FQDN-THAT-RESOLVES* --set ingress.tls.source=secret <-- What is this??? --set privateCA=true --kubeconfig ./kube_config_cluster.yaml <-- Get Default Rancher yaml
