@@ -62,6 +62,8 @@ to host -t srv _ldap._tcp.domainname.com
 -pgrep -l servicename returns PID
 -/bin/kill -s HUP xxxx <-- PID
 
+-net getauthuser
+-net getdomainsid
 
 # Open support if this all this fails.
 https://redmine.ixsystems.com/projects/freenas/issues
