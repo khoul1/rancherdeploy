@@ -1,0 +1,12 @@
+# samba issues
+-no logon server found
+
+https://www.ixsystems.com/blog/library/freenas-11-3-beta1/
+
+# Rreset related services 
+-via middleware : midclt call service.restart cifs
+-via service call (all FreeNAS Samba related services) : service samba_server onerestart 
+-via service call (daemon only): service smbd restart
+
+# Test related services
+
