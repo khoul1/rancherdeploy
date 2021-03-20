@@ -3,7 +3,8 @@
 
 https://www.ixsystems.com/blog/library/freenas-11-3-beta1/
 
-# Rreset related services 
+# Rreset related services
+-Via service call: service winbindd onestart
 -via middleware : midclt call service.restart cifs
 -via service call (all FreeNAS Samba related services) : service samba_server onerestart 
 -via service call (daemon only): service smbd restart
@@ -20,7 +21,7 @@ to host -t srv _ldap._tcp.domainname.com
 # Test related services
 -date
 -pool.ntp.org
-
+-service -e
 # confirm name resolution, firewall, LDAP, and GC access with commanndline
 -telnet AD Hostname port 389
 -telnet AD Hostname port 3268
@@ -28,17 +29,27 @@ to host -t srv _ldap._tcp.domainname.com
 # Resetting the services hard-core. run each command one after the other. Expected ECHO rezults will be 0 (zero)
 -sqlite3 /data/freenas-v1.db "update directoryservice_activedirectory set ad_enable=1;"
 -echo $?
+-service ix-hostname start
 -service ix-kerberos start
 -service ix-nsswitch start
 -service ix-kinit start
 -service ix-kinit status
 -echo $?
 -klist
+-service ix-pre-samba start 
+-net -k -d 5 ads join [this generates verbose output of the domain join] which workes with dns updates unchecked
+--At this point it complained about the workgroup still being set to work group changed that and tried again and joined the domain correctly
+-service samba_server restart
+-service ix-nsswitch start
+-service ix-pam start <- error (service does not exist in rc.d or local-startup)
+-service ix-cache start <-error (service does not exist in rc.d or local-startup)
+-service winbindd onestart <- error (service does not exist in rc.d or local-startup)
+
 # Include if unix is enabled
 -service ix-sssd start
 -service sssd start
 
-#Final steps
+#Final steps maybe
 -python /usr/local/www/freenasUI/middleware/notifier.py start cifs
 -service ix-activedirectory start
 -service ix-activedirectory status
@@ -46,6 +57,12 @@ to host -t srv _ldap._tcp.domainname.com
 -python /usr/local/www/freenasUI/middleware/notifier.py restart cifs
 -service ix-pam start
 -service ix-cache start &
+
+
+# Other commands
+-pgrep -l servicename returns PID
+-/bin/kill -s HUP xxxx <-- PID
+
 
 # Open support if this all this fails.
 https://redmine.ixsystems.com/projects/freenas/issues
