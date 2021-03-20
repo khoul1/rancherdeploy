@@ -8,5 +8,45 @@ https://www.ixsystems.com/blog/library/freenas-11-3-beta1/
 -via service call (all FreeNAS Samba related services) : service samba_server onerestart 
 -via service call (daemon only): service smbd restart
 
+
+debug
+
+-Test connectivity: wbinfo -t
+-View users: wbinfo -u
+-View groups: wbinfo -g
+-manually check specific user: net ads join -S dcname -U username
+to host -t srv _ldap._tcp.domainname.com
+
 # Test related services
+-date
+-pool.ntp.org
+
+# confirm name resolution, firewall, LDAP, and GC access with commanndline
+-telnet AD Hostname port 389
+-telnet AD Hostname port 3268
+
+# Resetting the services hard-core. run each command one after the other. Expected ECHO rezults will be 0 (zero)
+-sqlite3 /data/freenas-v1.db "update directoryservice_activedirectory set ad_enable=1;"
+-echo $?
+-service ix-kerberos start
+-service ix-nsswitch start
+-service ix-kinit start
+-service ix-kinit status
+-echo $?
+-klist
+# Include if unix is enabled
+-service ix-sssd start
+-service sssd start
+
+#Final steps
+-python /usr/local/www/freenasUI/middleware/notifier.py start cifs
+-service ix-activedirectory start
+-service ix-activedirectory status
+-echo $?
+-python /usr/local/www/freenasUI/middleware/notifier.py restart cifs
+-service ix-pam start
+-service ix-cache start &
+
+# Open support if this all this fails.
+https://redmine.ixsystems.com/projects/freenas/issues
 
