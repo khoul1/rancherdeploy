@@ -38,11 +38,10 @@ to host -t srv _ldap._tcp.domainname.com
 -klist
 -service ix-pre-samba start 
 -net -k -d 5 ads join [this generates verbose output of the domain join] which workes with dns updates unchecked
---At this point it complained about the workgroup still being set to work group changed that and tried again and joined the domain correctly
 -service samba_server restart
 -service ix-nsswitch start
--service ix-pam start <- error (service does not exist in rc.d or local-startup)
--service ix-cache start <-error (service does not exist in rc.d or local-startup)
+-service ix-pam start 
+-service ix-cache start 
 -service winbindd onestart <- error (service does not exist in rc.d or local-startup)
 
 # Include if unix is enabled
